@@ -67,9 +67,9 @@ class DataCollection:
             last_buffered = 0
 
         last_id_index = self.find_last_tweet(tweets_ids, output_dir)
+        print(last_id_index)
         eprint(last_id_index)
-        eprint(last_id_index)
-        eprint(last_id_index)
+        print(last_id_index)
 
         tweets_ids = tweets_ids[last_id_index:]
 
