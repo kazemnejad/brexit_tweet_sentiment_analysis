@@ -57,13 +57,31 @@ class DataCollection:
         buffer = []
         buffer_size = 10 * 100
 
+        if len(list(os.listdir(output_dir))) > 0:
+            last_buffered = max([int(i) for i in os.listdir(output_dir)]) + 1
+        else:
+            last_buffered = 0
+
         for i in range(int(len(tweets_ids) / 100) + 1):
+            if i * 100 < last_buffered * buffer_size:
+                continue
+
             ids = [i[0] for i in tweets_ids[i * 100: (i + 1) * 100]]
 
-            tweets = api.statuses_lookup(ids, False, True)
-            buffer.extend(tweets)
+            tweets = []
+            isDone = False
+            while not isDone:
+                try:
+                    tweets = api.statuses_lookup(ids, False, True)
+                    isDone = True
+                except:
+                    print("retrying...")
+                    isDone = False
+                    continue
 
             print("#", (i + 1) * 100, len(tweets_ids))
+
+            buffer.extend(tweets)
 
             if len(buffer) >= buffer_size:
                 self.save_buffer(buffer, output_dir)
