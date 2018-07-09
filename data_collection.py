@@ -50,7 +50,8 @@ class DataCollection:
         # authorize twitter, initialize tweepy
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
         auth.set_access_token(access_key, access_secret)
-        api = tweepy.API(auth, wait_on_rate_limit=True)
+        api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True, retry_count=1000,
+                         retry_errors=[503], retry_delay=1)
 
         buffer = []
         buffer_size = 1 * 100
