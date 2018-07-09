@@ -1,0 +1,26 @@
+{
+  "hashtag": [
+    "h1",
+    "h2"
+  ],
+  "interval": {
+    "start_date": "",
+    "end_date": "",
+    "step_size": ""
+  },
+  "apiKey": {
+    "keys": [
+      {
+        "consumer_key": "..",
+        "consumer_secret": "..",
+        "access_token": "..",
+        "access_token_secret": ".."
+      },
+      {
+      }
+    ],
+    "index": 0
+  },
+  "output_file": "",
+  "ifh": true
+}
