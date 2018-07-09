@@ -53,13 +53,13 @@ class DataCollection:
         api = tweepy.API(auth, wait_on_rate_limit=True)
 
         buffer = []
-        buffer_size = 10 * 100
+        buffer_size = 1 * 100
 
         for i in range(int(len(tweets_ids) / 100) + 1):
             ids = [i[0] for i in tweets_ids[i * 100: (i + 1) * 100]]
 
             tweets = api.statuses_lookup(ids, False, True)
-            buffer.append(tweets)
+            buffer.extend(tweets)
 
             print("#", (i + 1) * 100, len(tweets_ids))
 
