@@ -77,6 +77,9 @@ class DataCollection:
             "l": t.lang
         } for t in buffer]
 
-        output_filename = max([int(i) for i in os.listdir(output_dir)]) + 1
+        if len(list(os.listdir(output_dir))) > 0:
+            output_filename = max([int(i) for i in os.listdir(output_dir)]) + 1
+        else:
+            output_filename = 0
         with open(os.path.join(output_dir, str(output_filename)), encoding='utf8') as f:
             json.dump(trim_tweets, f, ensure_ascii=False)
