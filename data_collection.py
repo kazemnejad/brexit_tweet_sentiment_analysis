@@ -54,7 +54,7 @@ class DataCollection:
                          retry_errors=[503], retry_delay=1)
 
         buffer = []
-        buffer_size = 1 * 100
+        buffer_size = 10 * 100
 
         for i in range(int(len(tweets_ids) / 100) + 1):
             ids = [i[0] for i in tweets_ids[i * 100: (i + 1) * 100]]
