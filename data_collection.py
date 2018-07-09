@@ -108,7 +108,7 @@ class DataCollection:
         with open(os.path.join(output_dir, str(last_buffered)), 'r') as f:
             buffer = json.load(f)
 
-        last_id = buffer[-1].i
+        last_id = buffer[-1]['i']
 
         for i in range(len(tweets_ids)):
             if tweets_ids[i][0] == last_id:
