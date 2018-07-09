@@ -101,7 +101,7 @@ class DataCollection:
 
     def find_last_tweet(self, tweets_ids, output_dir):
         if len(list(os.listdir(output_dir))) > 0:
-            last_buffered = max([int(i) for i in os.listdir(output_dir)]) + 1
+            last_buffered = max([int(i) for i in os.listdir(output_dir)])
         else:
             return 0
 
