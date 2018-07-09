@@ -7,6 +7,10 @@ import tweepy
 import twitter
 
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
+
+
 class DataCollection:
     def __init__(self, config):
         self.config = config
@@ -62,9 +66,17 @@ class DataCollection:
         else:
             last_buffered = 0
 
+        last_id_index = self.find_last_tweet(tweets_ids, output_dir)
+        eprint(last_id_index)
+        eprint(last_id_index)
+        eprint(last_id_index)
+
+        tweets_ids = tweets_ids[last_id_index:]
+
         for i in range(int(len(tweets_ids) / 100) + 1):
-            if i * 100 < last_buffered * buffer_size:
-                continue
+            # if i * 100 < last_buffered * buffer_size:
+            #     eprint("skipped", i * 100)
+            #     continue
 
             ids = [i[0] for i in tweets_ids[i * 100: (i + 1) * 100]]
 
@@ -75,17 +87,34 @@ class DataCollection:
                     tweets = api.statuses_lookup(ids, False, True)
                     isDone = True
                 except:
-                    print("retrying...")
+                    eprint("retrying...")
                     isDone = False
                     continue
 
-            print("#", (i + 1) * 100, len(tweets_ids))
+            eprint("#", (i + 1) * 100, len(tweets_ids))
 
             buffer.extend(tweets)
 
             if len(buffer) >= buffer_size:
                 self.save_buffer(buffer, output_dir)
                 buffer = []
+
+    def find_last_tweet(self, tweets_ids, output_dir):
+        if len(list(os.listdir(output_dir))) > 0:
+            last_buffered = max([int(i) for i in os.listdir(output_dir)]) + 1
+        else:
+            return 0
+
+        with open(os.path.join(output_dir, str(last_buffered)), 'r') as f:
+            buffer = json.load(f)
+
+        last_id = buffer[-1].i
+
+        for i in range(len(tweets_ids)):
+            if tweets_ids[i][0] == last_id:
+                return i + 1
+
+        return 0
 
     def save_buffer(self, buffer, output_dir):
         trim_tweets = [{
